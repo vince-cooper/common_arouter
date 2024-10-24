@@ -68,7 +68,7 @@ dependencies {
     if (providers.gradleProperty("enable.local.debug").get().toBoolean()) {
         implementation(project(":common_module"))
     } else {
-        implementation(libs.common.module)
+        implementation(libs.commons.module)
     }
     kapt(libs.arouter.compiler)
 }
