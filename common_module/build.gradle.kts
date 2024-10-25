@@ -40,11 +40,13 @@ val nexusUsername: String by extra
 val nexusPassword: String by extra
 val nexusSnapshotUrl: String by extra
 val nexusReleaseUrl: String by extra
+val releasesName: String by extra
+val snapshotName: String by extra
 
 publishing {
     repositories {
         maven {
-            name = "wangwhSnapshot"
+            name = snapshotName
             url = uri(nexusSnapshotUrl)
             credentials {
                 username = nexusUsername
@@ -52,7 +54,7 @@ publishing {
             }
         }
         maven {
-            name = "wangwhRelease"
+            name = releasesName
             url = uri(nexusReleaseUrl)
             credentials {
                 username = nexusUsername
@@ -63,7 +65,11 @@ publishing {
 }
 
 mavenPublishing {
-    coordinates("com.wangwh.commons", "module", "0.0.1-SNAPSHOT")
+    coordinates(
+        libs.common.module.get().group,
+        libs.common.module.get().name,
+        libs.common.module.get().version
+    )
     configure(
         AndroidSingleVariantLibrary(
             variant = "release",
@@ -76,6 +82,7 @@ mavenPublishing {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.startup)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
